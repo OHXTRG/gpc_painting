@@ -1,0 +1,63 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-heading), ui-sans-serif, system-ui, sans-serif;
+
+  --color-brand-900: oklch(0.22 0.04 250);
+  --color-brand-800: oklch(0.28 0.06 245);
+  --color-brand-700: oklch(0.38 0.08 245);
+  --color-brand-300: oklch(0.72 0.1 240);
+  --color-brand-100: oklch(0.94 0.02 240);
+
+  --color-accent-400: oklch(0.78 0.14 85);
+  --color-accent-500: oklch(0.72 0.14 85);
+
+  --color-surface-50: oklch(0.98 0.005 90);
+
+  --color-neutral-200: oklch(0.92 0.005 260);
+  --color-neutral-300: oklch(0.86 0.008 260);
+  --color-neutral-400: oklch(0.72 0.01 260);
+  --color-neutral-600: oklch(0.48 0.015 260);
+  --color-neutral-700: oklch(0.42 0.01 260);
+
+  --animate-marquee: marquee 30s linear infinite;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee {
+    animation: none;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--color-brand-900);
+  background: white;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+}
