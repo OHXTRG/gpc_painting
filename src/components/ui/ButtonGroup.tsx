@@ -9,6 +9,7 @@ interface ButtonGroupProps {
   variant?: "primary" | "secondary";
   external?: boolean;
   className?: string;
+  onClick?: () => void;
 }
 
 export function ButtonGroup({
@@ -18,6 +19,7 @@ export function ButtonGroup({
   variant = "primary",
   external = false,
   className,
+  onClick,
 }: ButtonGroupProps) {
   const isPrimary = variant === "primary";
 
@@ -46,14 +48,14 @@ export function ButtonGroup({
 
   if (external) {
     return (
-      <a href={href} className={groupClasses} target="_blank" rel="noopener noreferrer">
+      <a href={href} className={groupClasses} target="_blank" rel="noopener noreferrer" onClick={onClick}>
         {content}
       </a>
     );
   }
 
   return (
-    <Link href={href} className={groupClasses}>
+    <Link href={href} className={groupClasses} onClick={onClick}>
       {content}
     </Link>
   );

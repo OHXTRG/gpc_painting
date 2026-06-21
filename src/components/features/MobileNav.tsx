@@ -17,6 +17,7 @@ interface MobileNavProps {
 export function MobileNav({ links }: MobileNavProps) {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
+  console.log("rerender contect " , isOpen)
 
   useEffect(() => {
     document.body.style.overflow = isOpen ? "hidden" : "";
@@ -39,13 +40,16 @@ export function MobileNav({ links }: MobileNavProps) {
       </button>
 
       {isOpen && (
+        
         <div
           id="mobile-nav-panel"
-          className="fixed inset-0 z-50 bg-brand-900/95 backdrop-blur-sm"
+          // className="fixed inset-0 z-50 bg-brand-900/95 backdrop-blur-sm"
+          className="fixed inset-0 z-50 bg-brand-900/98 backdrop-blur-md shadow-2xl h-dvh"
           role="dialog"
           aria-modal="true"
           aria-label="Mobile navigation"
         >
+
           <Container className="flex h-full flex-col py-6">
             <div className="flex items-center justify-between">
               <Link href="/" className="text-lg font-bold text-white" onClick={() => setIsOpen(false)}>
@@ -71,7 +75,10 @@ export function MobileNav({ links }: MobileNavProps) {
                     href={link.href}
                     className={cn(
                       "rounded-xl px-4 py-4 text-lg font-semibold transition-colors",
-                      isActive ? "bg-brand-700 text-white" : "text-neutral-200 hover:bg-white/10",
+                      // isActive ? "bg-brand-700 text-white" : "text-neutral-200 hover:bg-white/10",
+                      isActive
+  ? "bg-brand-700 text-white shadow-lg"
+  : "bg-brand-800/40 text-neutral-200 hover:bg-brand-700/60"
                     )}
                     onClick={() => setIsOpen(false)}
                   >
@@ -81,10 +88,13 @@ export function MobileNav({ links }: MobileNavProps) {
               })}
             </nav>
 
-            <div className="mt-auto flex flex-col gap-3">
+            <div className="mt-auto flex flex-col gap-3 border-t border-white/10 pt-6">
+            {/* <div className="mt-auto flex flex-col gap-3"> */}
               <ButtonGroup
                 label={CTA.quote.label}
                 href={CTA.quote.href}
+                // onClick={() =>{ setIsOpen(false) , console.log("clicked")}}
+                onClick={() => setIsOpen(false)}
                 icon={<ArrowUpRightIcon className="h-4 w-4" />}
                 variant="secondary"
               />
