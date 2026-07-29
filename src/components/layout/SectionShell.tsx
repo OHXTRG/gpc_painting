@@ -30,7 +30,7 @@ export function SectionShell({
     <section
       id={id}
       aria-labelledby={ariaLabelledby}
-      className={cn("py-16 md:py-24", variantStyles[variant], className)}
+      className={cn("py-16 md:py-24", id && "scroll-mt-20", variantStyles[variant], className)}
     >
       <Container className={containerClassName}>{children}</Container>
     </section>

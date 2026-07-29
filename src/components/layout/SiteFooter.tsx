@@ -1,7 +1,8 @@
-import Link from "next/link";
 import { footerNavLinks } from "@/data/navigation";
 import { SITE } from "@/constants/site";
+import { SectionNavLink } from "@/components/ui/SectionNavLink";
 import { Container } from "@/components/ui/Container";
+import Image from "next/image";
 
 export function SiteFooter() {
   const { address } = SITE;
@@ -11,12 +12,23 @@ export function SiteFooter() {
       <Container className="py-12 md:py-16">
         <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-4">
           <div className="lg:col-span-2">
-            <Link href="/" className="text-xl font-bold">
-              {SITE.name}
-            </Link>
+            <SectionNavLink href="/" className="text-xl font-bold">
+               <span className="relative h-60 w-60 shrink-0 sm:h-60 sm:w-60 inline-block">
+              <Image
+                src="/new_2_new.png"
+                alt={SITE.name}
+                fill
+                sizes="150px"
+                className="object-contain"
+                priority
+                />
+            </span>
+                {/* {SITE.name} */}
+                </SectionNavLink>
             <p className="mt-4 max-w-md text-sm leading-relaxed text-neutral-300">
               {SITE.description}
             </p>
+           
           </div>
 
           <div>
@@ -26,12 +38,12 @@ export function SiteFooter() {
             <ul className="mt-4 space-y-3">
               {footerNavLinks.map((link) => (
                 <li key={link.href}>
-                  <Link
+                  <SectionNavLink
                     href={link.href}
                     className="text-sm text-neutral-300 transition-colors hover:text-white"
                   >
                     {link.label}
-                  </Link>
+                  </SectionNavLink>
                 </li>
               ))}
             </ul>

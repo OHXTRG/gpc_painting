@@ -1,3 +1,10 @@
+import { redirect } from "next/navigation";
+
+export default function ContactPage() {
+  redirect("/#contact");
+}
+
+/*
 import { PageHero } from "@/components/layout/PageHero";
 import { QuoteFormSection } from "@/components/sections/QuoteFormSection";
 import { FaqSection } from "@/components/sections/FaqSection";
@@ -23,3 +30,4 @@ export default function ContactPage() {
     </>
   );
 }
+*/

@@ -3,8 +3,10 @@ import { mainNavLinks, headerCtas } from "@/data/navigation";
 import { SITE } from "@/constants/site";
 import { MobileNav } from "@/components/features/MobileNav";
 import { ButtonGroup } from "@/components/ui/ButtonGroup";
+import { SectionNavLink } from "@/components/ui/SectionNavLink";
 import { Container } from "@/components/ui/Container";
 import { ArrowUpRightIcon, PhoneIcon } from "@/components/ui/icons";
+import Image from "next/image";
 
 export function SiteHeader() {
   return (
@@ -17,23 +19,36 @@ export function SiteHeader() {
       </a>
       <Container as="nav" aria-label="Primary" className="flex h-16 items-center justify-between sm:h-20">
         <Link href="/" className="flex items-center gap-2">
-          <span className="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-brand-700 text-sm font-bold text-white">
+          {/* <span className="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-brand-700 text-sm font-bold text-white">
             GP
           </span>
           <span className="hidden text-sm font-bold uppercase tracking-wide text-brand-900 sm:inline">
             {SITE.name}
+          </span> */}
+          <span className="relative h-25 w-25 shrink-0 sm:h-25 sm:w-25">
+            <Image
+              src="/new_logo_racoon.png"
+              alt={SITE.name}
+              fill
+              sizes="150px"
+              className="object-contain"
+              priority
+            />
           </span>
+          {/* <span className="hidden text-sm font-bold uppercase tracking-wide text-brand-900 sm:inline">
+            {SITE.name}
+          </span> */}
         </Link>
 
         <ul className="hidden items-center gap-8 lg:flex">
           {mainNavLinks.map((link) => (
             <li key={link.href}>
-              <Link
+              <SectionNavLink
                 href={link.href}
                 className="text-sm font-medium text-neutral-700 transition-colors hover:text-brand-700"
               >
                 {link.label}
-              </Link>
+              </SectionNavLink>
             </li>
           ))}
         </ul>

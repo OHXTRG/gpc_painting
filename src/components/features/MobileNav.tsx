@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import type { NavLink } from "@/types/content";
 import { SITE, CTA } from "@/constants/site";
 import { ButtonGroup } from "@/components/ui/ButtonGroup";
+import { SectionNavLink } from "@/components/ui/SectionNavLink";
 import { Container } from "@/components/ui/Container";
 import { ArrowUpRightIcon, CloseIcon, MenuIcon, PhoneIcon } from "@/components/ui/icons";
 import { cn } from "@/lib/cn";
@@ -16,8 +17,29 @@ interface MobileNavProps {
 
 export function MobileNav({ links }: MobileNavProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [activeHref, setActiveHref] = useState("/");
   const pathname = usePathname();
-  console.log("rerender contect " , isOpen)
+  const closeMenu = () => setIsOpen(false);
+
+  useEffect(() => {
+    if (pathname !== "/") {
+      setActiveHref(pathname);
+      return;
+    }
+
+    const syncActiveHref = () => {
+      setActiveHref(window.location.hash ? `/${window.location.hash}` : "/");
+    };
+
+    syncActiveHref();
+    window.addEventListener("hashchange", syncActiveHref);
+    window.addEventListener("popstate", syncActiveHref);
+
+    return () => {
+      window.removeEventListener("hashchange", syncActiveHref);
+      window.removeEventListener("popstate", syncActiveHref);
+    };
+  }, [pathname]);
 
   useEffect(() => {
     document.body.style.overflow = isOpen ? "hidden" : "";
@@ -67,23 +89,25 @@ export function MobileNav({ links }: MobileNavProps) {
 
             <nav className="mt-10 flex flex-1 flex-col gap-2" aria-label="Mobile primary">
               {links.map((link) => {
-                const isActive = pathname === link.href;
+                const isActive = activeHref === link.href;
 
                 return (
-                  <Link
+                  <SectionNavLink
                     key={link.href}
                     href={link.href}
+                    onNavigate={() => {
+                      setActiveHref(link.href);
+                      closeMenu();
+                    }}
                     className={cn(
                       "rounded-xl px-4 py-4 text-lg font-semibold transition-colors",
-                      // isActive ? "bg-brand-700 text-white" : "text-neutral-200 hover:bg-white/10",
                       isActive
-  ? "bg-brand-700 text-white shadow-lg"
-  : "bg-brand-800/40 text-neutral-200 hover:bg-brand-700/60"
+                        ? "bg-brand-700 text-white shadow-lg"
+                        : "bg-brand-800/40 text-neutral-200 hover:bg-brand-700/60",
                     )}
-                    onClick={() => setIsOpen(false)}
                   >
                     {link.label}
-                  </Link>
+                  </SectionNavLink>
                 );
               })}
             </nav>
@@ -93,8 +117,7 @@ export function MobileNav({ links }: MobileNavProps) {
               <ButtonGroup
                 label={CTA.quote.label}
                 href={CTA.quote.href}
-                // onClick={() =>{ setIsOpen(false) , console.log("clicked")}}
-                onClick={() => setIsOpen(false)}
+                onClick={closeMenu}
                 icon={<ArrowUpRightIcon className="h-4 w-4" />}
                 variant="secondary"
               />

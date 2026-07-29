@@ -5,7 +5,7 @@ import { ContactInfoSection } from "@/components/sections/ContactInfoSection";
 
 export function QuoteFormSection() {
   return (
-    <SectionShell variant="muted" ariaLabelledby="quote-form-heading">
+    <SectionShell id="contact" variant="muted" ariaLabelledby="quote-form-heading">
       <SectionHeading
         eyebrow="Get in Touch"
         title="Request Your Free Quote"

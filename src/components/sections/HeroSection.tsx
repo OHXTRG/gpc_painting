@@ -24,6 +24,7 @@ export function HeroSection() {
         <div className="max-w-3xl">
           <div className="mb-5 flex flex-wrap items-center gap-3">
             <Badge variant="outline">{SITE.legalName}</Badge>
+            <Badge variant="outline">Red Seal Certified</Badge>
             <span className="inline-flex items-center gap-1.5 text-sm text-neutral-200">
               <StarIcon className="h-4 w-4 text-accent-400" />
               Trusted local painting professionals

@@ -3,9 +3,9 @@ import { CTA } from "@/constants/site";
 
 export const mainNavLinks: NavLink[] = [
   { label: "Home", href: "/" },
-  { label: "About Us", href: "/about" },
-  { label: "Services", href: "/services" },
-  { label: "Contact", href: "/contact" },
+  { label: "About Us", href: "/#about" },
+  { label: "Services", href: "/#services" },
+  { label: "Contact", href: "/#contact" },
 ];
 
 export const footerNavLinks: NavLink[] = mainNavLinks;

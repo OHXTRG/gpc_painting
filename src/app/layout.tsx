@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Plus_Jakarta_Sans } from "next/font/google";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
+import { HashScrollHandler } from "@/components/features/HashScrollHandler";
 import { defaultMetadata } from "@/lib/metadata";
 import { buildLocalBusinessJsonLd } from "@/lib/json-ld";
 import "./globals.css";
@@ -35,6 +36,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
         <SiteHeader />
+        <HashScrollHandler />
         <main id="main-content" className="flex-1">
           {children}
         </main>

@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { services } from "@/data/services";
 import { SectionShell } from "@/components/layout/SectionShell";
 import { SectionHeading } from "@/components/ui/SectionHeading";
@@ -11,7 +10,7 @@ interface ServicesGridSectionProps {
 
 export function ServicesGridSection({
   limit,
-  showViewAll = true,
+  showViewAll: _showViewAll = true,
 }: ServicesGridSectionProps) {
   const displayedServices = limit ? services.slice(0, limit) : services;
 
@@ -36,7 +35,7 @@ export function ServicesGridSection({
         ))}
       </div>
 
-      {showViewAll && (
+      {/* {showViewAll && (
         <div className="mt-10 text-center">
           <Link
             href="/services"
@@ -46,7 +45,7 @@ export function ServicesGridSection({
             <span aria-hidden="true">→</span>
           </Link>
         </div>
-      )}
+      )} */}
     </SectionShell>
   );
 }

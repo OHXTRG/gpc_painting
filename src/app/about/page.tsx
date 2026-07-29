@@ -1,3 +1,10 @@
+import { redirect } from "next/navigation";
+
+export default function AboutPage() {
+  redirect("/#about");
+}
+
+/*
 import { PageHero } from "@/components/layout/PageHero";
 import {
   AboutStorySection,
@@ -33,3 +40,4 @@ export default function AboutPage() {
     </>
   );
 }
+*/

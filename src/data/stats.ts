@@ -21,8 +21,8 @@ export const stats: Stat[] = [
   },
   {
     id: "service-area",
-    displayText: "GVA",
-    label: "Serving Greater Vancouver & Lower Mainland",
+    displayText: "BC",
+    label: "Serving Lower Mainland Vancouver, Vancouver Island, and all over BC",
   },
 ];
 

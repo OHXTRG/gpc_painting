@@ -1,3 +1,10 @@
+import { redirect } from "next/navigation";
+
+export default function ServicesPage() {
+  redirect("/#services");
+}
+
+/*
 import { PageHero } from "@/components/layout/PageHero";
 import { ServicesListSection } from "@/components/sections/ServicesListSection";
 import { WhyChooseSection } from "@/components/sections/WhyChooseSection";
@@ -33,3 +40,4 @@ export default function ServicesPage() {
     </>
   );
 }
+*/

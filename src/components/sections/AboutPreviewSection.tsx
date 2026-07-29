@@ -1,14 +1,13 @@
 import Image from "next/image";
-import Link from "next/link";
 import { trustBadges } from "@/data/trust-badges";
-import { CTA, SITE } from "@/constants/site";
+import { SITE } from "@/constants/site";
 import { SectionShell } from "@/components/layout/SectionShell";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { CheckIcon } from "@/components/ui/icons";
 
 export function AboutPreviewSection() {
   return (
-    <SectionShell variant="muted" ariaLabelledby="about-preview-heading">
+    <SectionShell id="about" variant="muted" ariaLabelledby="about-preview-heading">
       <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
         <div className="relative aspect-[4/3] overflow-hidden rounded-2xl">
           <Image
@@ -45,13 +44,13 @@ export function AboutPreviewSection() {
             ))}
           </ul>
 
-          <Link
+          {/* <Link
             href={CTA.about.href}
             className="mt-8 inline-flex items-center gap-2 text-sm font-semibold text-brand-700 transition-colors hover:text-brand-800"
           >
             Learn More
             <span aria-hidden="true">→</span>
-          </Link>
+          </Link> */}
         </div>
       </div>
     </SectionShell>

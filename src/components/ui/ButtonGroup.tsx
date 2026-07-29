@@ -1,6 +1,10 @@
+"use client";
+
 import Link from "next/link";
-import type { ReactNode } from "react";
+import { usePathname } from "next/navigation";
+import type { MouseEvent, ReactNode } from "react";
 import { cn } from "@/lib/cn";
+import { handleSectionNavClick } from "@/lib/nav-scroll";
 
 interface ButtonGroupProps {
   label: string;
@@ -21,7 +25,15 @@ export function ButtonGroup({
   className,
   onClick,
 }: ButtonGroupProps) {
+  const pathname = usePathname();
   const isPrimary = variant === "primary";
+  const isHashOrHome = href === "/" || href.startsWith("/#");
+
+  const handleClick = (event: MouseEvent<HTMLAnchorElement>) => {
+    if (handleSectionNavClick(href, pathname, onClick)) {
+      event.preventDefault();
+    }
+  };
 
   const groupClasses = cn(
     "inline-flex items-stretch overflow-hidden rounded-full",
@@ -49,6 +61,14 @@ export function ButtonGroup({
   if (external) {
     return (
       <a href={href} className={groupClasses} target="_blank" rel="noopener noreferrer" onClick={onClick}>
+        {content}
+      </a>
+    );
+  }
+
+  if (isHashOrHome) {
+    return (
+      <a href={href} className={groupClasses} onClick={handleClick}>
         {content}
       </a>
     );

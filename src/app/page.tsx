@@ -4,8 +4,9 @@ import { AboutPreviewSection } from "@/components/sections/AboutPreviewSection";
 import { ServicesGridSection } from "@/components/sections/ServicesGridSection";
 import { PortfolioSection } from "@/components/sections/PortfolioSection";
 import { ProcessSection } from "@/components/sections/ProcessSection";
-import { WhyChooseSection } from "@/components/sections/WhyChooseSection";
-import { TestimonialsSection } from "@/components/sections/TestimonialsSection";
+// import { WhyChooseSection } from "@/components/sections/WhyChooseSection";
+// import { TestimonialsSection } from "@/components/sections/TestimonialsSection";
+import { QuoteFormSection } from "@/components/sections/QuoteFormSection";
 import { FaqSection } from "@/components/sections/FaqSection";
 import { CtaBandSection } from "@/components/sections/CtaBandSection";
 import { buildFaqJsonLd } from "@/lib/json-ld";
@@ -26,8 +27,9 @@ export default function HomePage() {
       <ServicesGridSection />
       <PortfolioSection />
       <ProcessSection />
-      <WhyChooseSection />
-      <TestimonialsSection />
+      {/* <WhyChooseSection /> */}
+      {/* <TestimonialsSection /> */}
+      <QuoteFormSection />
       <FaqSection />
       <CtaBandSection />
     </>

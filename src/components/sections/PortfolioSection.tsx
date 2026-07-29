@@ -1,3 +1,38 @@
+import Image from "next/image";
+import { portfolioItems } from "@/data/portfolio";
+import { SectionShell } from "@/components/layout/SectionShell";
+import { SectionHeading } from "@/components/ui/SectionHeading";
+
+export function PortfolioSection() {
+  return (
+    <SectionShell id="portfolio" ariaLabelledby="portfolio-heading">
+      <SectionHeading
+        eyebrow="Our Projects"
+        title="Beautiful. Durable. Professionally Finished."
+        className="mb-12"
+      />
+
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {portfolioItems.map((item) => (
+          <div
+            key={item.id}
+            className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-neutral-100"
+          >
+            <Image
+              src={item.image}
+              alt={item.imageAlt}
+              fill
+              className="object-cover transition-transform duration-300 hover:scale-105"
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            />
+          </div>
+        ))}
+      </div>
+    </SectionShell>
+  );
+}
+
+/*
 import { portfolioItems, portfolioMarqueeTags } from "@/data/portfolio";
 import { SectionShell } from "@/components/layout/SectionShell";
 import { SectionHeading } from "@/components/ui/SectionHeading";
@@ -30,3 +65,4 @@ export function PortfolioSection() {
     </SectionShell>
   );
 }
+*/
