@@ -15,7 +15,7 @@ export function SiteFooter() {
             <SectionNavLink href="/" className="text-xl font-bold">
                <span className="relative h-60 w-60 shrink-0 sm:h-60 sm:w-60 inline-block">
               <Image
-                src="/new_2_new.png"
+                src="/logo4.png"
                 alt={SITE.name}
                 fill
                 sizes="150px"

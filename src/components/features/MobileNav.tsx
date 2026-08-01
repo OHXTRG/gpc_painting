@@ -10,6 +10,7 @@ import { SectionNavLink } from "@/components/ui/SectionNavLink";
 import { Container } from "@/components/ui/Container";
 import { ArrowUpRightIcon, CloseIcon, MenuIcon, PhoneIcon } from "@/components/ui/icons";
 import { cn } from "@/lib/cn";
+import Image from "next/image";
 
 interface MobileNavProps {
   links: NavLink[];
@@ -74,8 +75,22 @@ export function MobileNav({ links }: MobileNavProps) {
 
           <Container className="flex h-full flex-col py-6">
             <div className="flex items-center justify-between">
-              <Link href="/" className="text-lg font-bold text-white" onClick={() => setIsOpen(false)}>
-                {SITE.name}
+              <Link href="/" className="flex items-center gap-3 text-lg font-bold text-white" onClick={() => setIsOpen(false)}>
+              <div className="relative h-20 w-20 shrink-0 sm:h-28 sm:w-28">
+        <Image
+          src="/logo4.png"
+          alt="GPC Painting"
+          fill
+          sizes="(max-width: 640px) 80px, 112px"
+          className="object-contain"
+          priority
+        />
+      </div>
+
+      <div className="sm:block">
+        <h2 className="text-xl font-bold text-brand-900">GPC Painting</h2>
+        <p className="text-xs text-neutral-500">Residential & Commercial</p>
+      </div>
               </Link>
               <button
                 type="button"
