@@ -28,6 +28,11 @@ export function QuoteForm({ turnstileSiteKey }: { turnstileSiteKey: string }) {
   const [turnstileToken, setTurnstileToken] = useState("");
   const [turnstileKey, setTurnstileKey] = useState(0);
 
+  console.log("turnstileSiteKey", turnstileSiteKey);
+  console.log("turnstileToken", turnstileToken);
+
+
+  
   const handleChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
   ) => {
