@@ -2,6 +2,7 @@ import { Resend } from "resend";
 import { SITE } from "@/constants/site";
 import { projectTypeOptions } from "@/data/form-options";
 import type { QuoteFormValues } from "@/types/forms";
+import { getNodemailerTransporter, getGmailFromAddress } from "./nodemailer-transport"; 
 
 function getProjectTypeLabel(value: string): string {
   return projectTypeOptions.find((option) => option.value === value)?.label ?? value;
@@ -47,25 +48,58 @@ function buildCustomerEmailHtml(name: string): string {
   `.trim();
 }
 
-export async function sendQuoteEmails(values: QuoteFormValues): Promise<void> {
-  const apiKey = process.env.RESEND_API_KEY;
-  if (!apiKey) {
-    throw new Error("RESEND_API_KEY is not configured.");
-  }
+// export async function sendQuoteEmails(values: QuoteFormValues): Promise<void> {
+//   const apiKey = process.env.RESEND_API_KEY;
+//   if (!apiKey) {
+//     throw new Error("RESEND_API_KEY is not configured.");
+//   }
 
-  const from = process.env.EMAIL_FROM ?? `${SITE.name} <onboarding@resend.dev>`;
-  const resend = new Resend(apiKey);
+//   const from = process.env.EMAIL_FROM ?? `${SITE.name} <onboarding@resend.dev>`;
+//   const resend = new Resend(apiKey);
+//   const projectLabel = getProjectTypeLabel(values.projectType);
+
+//   const [ownerResult, customerResult] = await Promise.all([
+//     resend.emails.send({
+//       from,
+//       to: SITE.email,
+//       replyTo: values.email,
+//       subject: `New quote request from ${values.name}`,
+//       html: buildOwnerEmailHtml(values, projectLabel),
+//     }),
+//     resend.emails.send({
+//       from,
+//       to: values.email,
+//       subject: `Thank you for your quote request — ${SITE.name}`,
+//       html: buildCustomerEmailHtml(values.name),
+//     }),
+//   ]);
+
+//   if (ownerResult.error || customerResult.error) {
+//     const message =
+//       ownerResult.error?.message ??
+//       customerResult.error?.message ??
+//       "Failed to send quote emails.";
+//     throw new Error(message);
+//   }
+// }
+
+
+// adjust path
+
+export async function sendQuoteEmails(values: QuoteFormValues): Promise<void> {
+  const transporter = getNodemailerTransporter();
+  const from = `${SITE.name} <${getGmailFromAddress()}>`;
   const projectLabel = getProjectTypeLabel(values.projectType);
 
-  const [ownerResult, customerResult] = await Promise.all([
-    resend.emails.send({
+  const [ownerResult, customerResult] = await Promise.allSettled([
+    transporter.sendMail({
       from,
       to: SITE.email,
       replyTo: values.email,
       subject: `New quote request from ${values.name}`,
       html: buildOwnerEmailHtml(values, projectLabel),
     }),
-    resend.emails.send({
+    transporter.sendMail({
       from,
       to: values.email,
       subject: `Thank you for your quote request — ${SITE.name}`,
@@ -73,10 +107,10 @@ export async function sendQuoteEmails(values: QuoteFormValues): Promise<void> {
     }),
   ]);
 
-  if (ownerResult.error || customerResult.error) {
+  if (ownerResult.status === "rejected" || customerResult.status === "rejected") {
     const message =
-      ownerResult.error?.message ??
-      customerResult.error?.message ??
+      (ownerResult.status === "rejected" && ownerResult.reason?.message) ||
+      (customerResult.status === "rejected" && customerResult.reason?.message) ||
       "Failed to send quote emails.";
     throw new Error(message);
   }
