@@ -4,6 +4,8 @@ import { QuoteForm } from "@/components/features/QuoteForm";
 import { ContactInfoSection } from "@/components/sections/ContactInfoSection";
 
 export function QuoteFormSection() {
+  const turnstileSiteKey = process.env.TURNSTILE_SITEKEY ?? "";
+
   return (
     <SectionShell id="contact" variant="muted" ariaLabelledby="quote-form-heading">
       <SectionHeading
@@ -13,13 +15,13 @@ export function QuoteFormSection() {
         className="mb-10"
       />
 
-      <div className="grid gap-10 lg:grid-cols-5">
-        <div className="lg:col-span-3">
+      <div className="grid min-w-0 gap-10 lg:grid-cols-5">
+        <div className="min-w-0 lg:col-span-3">
           <div className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm sm:p-8">
-            <QuoteForm />
+            <QuoteForm turnstileSiteKey={turnstileSiteKey} />
           </div>
         </div>
-        <div className="lg:col-span-2">
+        <div className="min-w-0 lg:col-span-2">
           <ContactInfoSection />
         </div>
       </div>

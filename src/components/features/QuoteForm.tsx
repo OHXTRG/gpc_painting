@@ -1,8 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import type { QuoteFormErrors, QuoteFormValues } from "@/types/forms";
 import { projectTypeOptions } from "@/data/form-options";
+import { validateQuoteForm } from "@/lib/validate-quote-form";
+import { TurnstileWidget } from "@/components/features/TurnstileWidget";
 import { Button } from "@/components/ui/Button";
 import { FormMessage } from "@/components/ui/FormMessage";
 import { Input } from "@/components/ui/Input";
@@ -17,27 +19,14 @@ const initialValues: QuoteFormValues = {
   message: "",
 };
 
-function validate(values: QuoteFormValues): QuoteFormErrors {
-  const errors: QuoteFormErrors = {};
-
-  if (!values.name.trim()) errors.name = "Name is required.";
-  if (!values.email.trim()) {
-    errors.email = "Email is required.";
-  } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email)) {
-    errors.email = "Enter a valid email address.";
-  }
-  if (!values.phone.trim()) errors.phone = "Phone number is required.";
-  if (!values.projectType) errors.projectType = "Please select a project type.";
-  if (!values.message.trim()) errors.message = "Please describe your project.";
-
-  return errors;
-}
-
-export function QuoteForm() {
+export function QuoteForm({ turnstileSiteKey }: { turnstileSiteKey: string }) {
   const [values, setValues] = useState<QuoteFormValues>(initialValues);
   const [errors, setErrors] = useState<QuoteFormErrors>({});
   const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
+  const [errorMessage, setErrorMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [turnstileToken, setTurnstileToken] = useState("");
+  const [turnstileKey, setTurnstileKey] = useState(0);
 
   const handleChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
@@ -46,26 +35,69 @@ export function QuoteForm() {
     setValues((prev) => ({ ...prev, [name]: value }));
     setErrors((prev) => ({ ...prev, [name]: undefined }));
     setStatus("idle");
+    setErrorMessage("");
+  };
+
+  const handleTurnstileVerify = useCallback((token: string) => {
+    setTurnstileToken(token);
+    setErrorMessage("");
+  }, []);
+
+  const handleTurnstileError = useCallback(() => {
+    setTurnstileToken("");
+    setErrorMessage("Verification failed. Please try again.");
+  }, []);
+
+  const handleTurnstileExpire = useCallback(() => {
+    setTurnstileToken("");
+  }, []);
+
+  const resetTurnstile = () => {
+    setTurnstileToken("");
+    setTurnstileKey((current) => current + 1);
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const nextErrors = validate(values);
+    const nextErrors = validateQuoteForm(values);
 
     if (Object.keys(nextErrors).length > 0) {
       setErrors(nextErrors);
       return;
     }
 
+    if (!turnstileToken) {
+      setStatus("error");
+      setErrorMessage("Please complete the verification challenge.");
+      return;
+    }
+
     setIsSubmitting(true);
+    setErrorMessage("");
 
     try {
-      // Placeholder for future API integration
-      await new Promise((resolve) => setTimeout(resolve, 800));
+      const response = await fetch("/api/quote", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...values, turnstileToken }),
+      });
+
+      const data = (await response.json()) as { error?: string };
+
+      if (!response.ok) {
+        setStatus("error");
+        setErrorMessage(data.error ?? "Something went wrong while submitting the form.");
+        resetTurnstile();
+        return;
+      }
+
       setStatus("success");
       setValues(initialValues);
+      resetTurnstile();
     } catch {
       setStatus("error");
+      setErrorMessage("Something went wrong while submitting the form. Please try again.");
+      resetTurnstile();
     } finally {
       setIsSubmitting(false);
     }
@@ -140,11 +172,28 @@ export function QuoteForm() {
       {status === "error" && (
         <FormMessage
           type="error"
-          message="Something went wrong while submitting the form. Please try again."
+          message={
+            errorMessage || "Something went wrong while submitting the form. Please try again."
+          }
         />
       )}
 
-      <Button type="submit" size="lg" disabled={isSubmitting} className="w-full sm:w-auto">
+      {turnstileSiteKey ? (
+        <TurnstileWidget
+          key={turnstileKey}
+          siteKey={turnstileSiteKey}
+          onVerify={handleTurnstileVerify}
+          onError={handleTurnstileError}
+          onExpire={handleTurnstileExpire}
+        />
+      ) : null}
+
+      <Button
+        type="submit"
+        size="lg"
+        disabled={isSubmitting || !turnstileSiteKey || !turnstileToken}
+        className="w-full sm:w-auto"
+      >
         {isSubmitting ? "Sending..." : "Submit Quote Request"}
       </Button>
     </form>

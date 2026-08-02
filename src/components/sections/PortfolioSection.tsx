@@ -1,7 +1,9 @@
 import Image from "next/image";
 import { portfolioItems } from "@/data/portfolio";
+import { SITE } from "@/constants/site";
 import { SectionShell } from "@/components/layout/SectionShell";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { ArrowUpRightIcon } from "@/components/ui/icons";
 
 export function PortfolioSection() {
   return (
@@ -27,6 +29,18 @@ export function PortfolioSection() {
             />
           </div>
         ))}
+      </div>
+
+      <div className="mt-10 text-center">
+        <a
+          href={SITE.social.instagram}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 text-base font-medium text-brand-700 transition-colors hover:text-brand-900"
+        >
+          More of our work on Instagram
+          <ArrowUpRightIcon className="h-4 w-4" />
+        </a>
       </div>
     </SectionShell>
   );

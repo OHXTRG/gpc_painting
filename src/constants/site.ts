@@ -7,8 +7,8 @@ export const SITE = {
   url: "https://gpc-painting.ca",
   phone: "(604) 555-0142",
   phoneHref: "tel:+16045550142",
-  email: "info@gpc-painting.ca",
-  emailHref: "mailto:info@gpc-painting.ca",
+  email: "01chanpreetsingh@gmail.com",
+  emailHref: "mailto:01chanpreetsingh@gmail.com",
   address: {
     street: "1200 Marine Drive",
     city: "North Vancouver",
@@ -18,9 +18,9 @@ export const SITE = {
   },
   serviceArea: "Lower Mainland Vancouver, Vancouver Island, and all over BC",
   social: {
-    facebook: "https://facebook.com",
-    instagram: "https://instagram.com",
-    linkedin: "https://linkedin.com",
+    // facebook: "https://facebook.com",
+    instagram: "https://www.instagram.com/gpc_painting",
+    // linkedin: "https://linkedin.com",
   },
   businessHours: "Mon–Fri 7:00 AM – 6:00 PM",
 } as const;
