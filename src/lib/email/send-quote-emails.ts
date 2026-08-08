@@ -1,4 +1,4 @@
-import { Resend } from "resend";
+// import { Resend } from "resend";
 import { SITE } from "@/constants/site";
 import { projectTypeOptions } from "@/data/form-options";
 import type { QuoteFormValues } from "@/types/forms";
